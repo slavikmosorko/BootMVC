@@ -45,7 +45,7 @@ public class ScheduledTasks {
                                 message.setSent(true);
                                 try {
                                     messageService.updateMessage(message.getId());
-                                    WorkerInfo.doneTasksAmount++;
+                                    WorkerInfo.addProcessedTask();
                                 } catch (Exception e) {
                                     log.error("Cant send message ID: " + message.getId());
                                 }

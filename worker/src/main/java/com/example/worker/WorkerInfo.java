@@ -8,11 +8,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class WorkerInfo {
     private static final Logger log = LoggerFactory.getLogger(WorkerInfo.class);
-    public static long doneTasksAmount = 0;
+    private static long doneTasksAmount = 0;
 
     @Scheduled(fixedRate = 10000)
     public void workerInfo() {
         log.info("[WORKER] Tasks done: " + doneTasksAmount);
+    }
+
+    public static void addProcessedTask() {
+        doneTasksAmount++;
     }
 
 }
