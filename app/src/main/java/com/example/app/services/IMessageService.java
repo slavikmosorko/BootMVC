@@ -7,8 +7,12 @@ import java.util.List;
 
 public interface IMessageService {
     List<Message> getAllMessages();
+
     Message getMessageById(long messageId);
+
     void addMessage(Message message);
+
     void updateMessage(long messageId);
+
     List<Message> getAllUnprocessedMessages();
 }

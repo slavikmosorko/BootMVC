@@ -1,8 +1,6 @@
 package com.example.worker;
 
 
-
-
 import com.example.app.models.Message;
 import com.example.app.services.IMessageService;
 import org.slf4j.Logger;

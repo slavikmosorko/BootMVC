@@ -11,7 +11,7 @@ public class WorkerInfo {
     public static long doneTasksAmount = 0;
 
     @Scheduled(fixedRate = 10000)
-    public void workerInfo(){
+    public void workerInfo() {
         log.info("[WORKER] Tasks done: " + doneTasksAmount);
     }
 

@@ -14,13 +14,12 @@ import java.util.List;
 public class MessageService implements IMessageService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private IMessageDAO messageDAO;
 
     @Autowired
     public MessageService(IMessageDAO messageDAO) {
         this.messageDAO = messageDAO;
     }
-
-    private IMessageDAO messageDAO;
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)

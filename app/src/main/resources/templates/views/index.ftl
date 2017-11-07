@@ -83,7 +83,8 @@
 <!-- First Container -->
 <div class="container-fluid bg-1 text-center">
     <h3 class="margin">Who Am I?</h3>
-    <img src="http://www.unixstickers.com/image/cache/data/stickers/spring/spring-leaf.sh-600x600.png" class="img-responsive img-circle margin" style="display:inline" alt="Bird" width="350"
+    <img src="http://www.unixstickers.com/image/cache/data/stickers/spring/spring-leaf.sh-600x600.png"
+         class="img-responsive img-circle margin" style="display:inline" alt="Bird" width="350"
          height="350">
     <h3>I'm an adventurer</h3>
 </div>
@@ -103,7 +104,7 @@
 <div class="container-fluid bg-3 text-center">
     <h3 class="margin">Where To Find Me?</h3><br>
     <div class="row">
-        <#--<div class="col-sm-4">-->
+    <#--<div class="col-sm-4">-->
             <#--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et-->
                 <#--dolore magna aliqua.</p>-->
             <#--<img src="birds1.jpg" class="img-responsive margin" style="width:100%" alt="Image">-->

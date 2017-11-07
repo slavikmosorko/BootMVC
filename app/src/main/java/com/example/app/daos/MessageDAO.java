@@ -42,7 +42,7 @@ public class MessageDAO implements IMessageDAO {
                 "WHERE m.sent = 0 " +
                 "AND m.sending_date BETWEEN " +
                 "(NOW() - INTERVAL 1 MINUTE) AND NOW()";
-        Query query = entityManager.createNativeQuery(nativeQuery,Message.class);
+        Query query = entityManager.createNativeQuery(nativeQuery, Message.class);
         return query.getResultList();
     }
 }
