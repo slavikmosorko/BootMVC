@@ -3,8 +3,7 @@ package com.example.app.config;
 import com.example.app.daos.IMatcherDAO;
 import com.example.app.daos.MatcherDAO;
 import com.example.app.models.Matcher;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +22,7 @@ import java.util.List;
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = Logger.getLogger(this.getClass());
     @Autowired
     private UserDetailsService userDetailsService;
     private List<Matcher> matchersList = Collections.emptyList();

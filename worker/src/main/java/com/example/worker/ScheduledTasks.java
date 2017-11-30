@@ -3,8 +3,7 @@ package com.example.worker;
 
 import com.example.app.models.Message;
 import com.example.app.services.IMessageService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -14,7 +13,7 @@ import java.util.List;
 
 @Component
 public class ScheduledTasks {
-    private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
+    private final Logger log = Logger.getLogger(this.getClass());
     private static List<Message> messageList = new ArrayList<>();
 
     private IMessageService messageService;
@@ -29,9 +28,9 @@ public class ScheduledTasks {
         if (messageList.isEmpty()) {
             List<Message> allUnprocessedMessages = messageService.getAllUnprocessedMessages();
             messageList.addAll(allUnprocessedMessages);
-            log.info("[MESSENGER] Added messages: " + allUnprocessedMessages.size());
+            log.info("Added messages: " + allUnprocessedMessages.size());
         }
-        log.info("[MESSENGER] Messages amount: " + messageList.size());
+        log.info("Messages amount: " + messageList.size());
         sendMessages();
     }
 

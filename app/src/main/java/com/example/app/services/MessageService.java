@@ -2,8 +2,7 @@ package com.example.app.services;
 
 import com.example.app.daos.IMessageDAO;
 import com.example.app.models.Message;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,7 @@ import java.util.List;
 @Service
 public class MessageService implements IMessageService {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = Logger.getLogger(this.getClass());
     private IMessageDAO messageDAO;
 
     @Autowired
@@ -50,9 +49,9 @@ public class MessageService implements IMessageService {
     public void addMessage(Message message) {
         try {
             messageDAO.addMessage(message);
-            logger.info("Message ID:{} added successfully!", message.getId());
+            logger.info("Message ID:" + message.getId() + " added successfully!");
         } catch (Exception e) {
-            logger.error("Message ID:{} adding failed!", message.getId(), e);
+            logger.error("Message ID:" + message.getId() + "adding failed!", e);
         }
     }
 }
