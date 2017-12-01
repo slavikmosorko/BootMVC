@@ -2,19 +2,19 @@ package com.example.app.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.security.Principal;
+import java.util.Objects;
 
 
 @Controller
-public class IndexController {
-
-    @RequestMapping("/")
-    public String index() {
-        return "views/index";
-    }
+public class LoginController {
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Principal principal) {
+        if (Objects.nonNull(principal)) {
+            return "redirect: /";
+        }
         return "views/login";
     }
 
