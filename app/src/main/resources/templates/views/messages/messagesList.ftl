@@ -1,4 +1,5 @@
 <#include "../../includes/coreInclude.ftl">
+<@mainLayout.defaultLayout "Messages">
 <html>
 <script>
     (function ($) {
@@ -125,3 +126,4 @@
 </div>
 </body>
 </html>
+</@mainLayout.defaultLayout>

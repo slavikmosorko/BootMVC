@@ -14,9 +14,9 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     public DriverManagerDataSource dataSource() {
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
         driverManagerDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        driverManagerDataSource.setUrl("jdbc:mysql://localhost/mvc_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Poland&useSSL=false");
-        driverManagerDataSource.setUsername("mvc_user");
-        driverManagerDataSource.setPassword("mvc_user");
+        driverManagerDataSource.setUrl("jdbc:mysql://den1.mysql6.gear.host/bootmvcdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Poland&useSSL=false");
+        driverManagerDataSource.setUsername("bootmvcdb");
+        driverManagerDataSource.setPassword("Zq5Sxazbd7~!");
         return driverManagerDataSource;
 
     }
