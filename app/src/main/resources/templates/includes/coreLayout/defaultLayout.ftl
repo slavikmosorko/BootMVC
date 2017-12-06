@@ -9,7 +9,7 @@
         /*font: 18px Montserrat, sans-serif;*/
         position: relative;
         margin: 0;
-        padding-bottom: 3rem;
+        padding-bottom: 40px;
         min-height: 100%;
         background-color: #ffffff; /* White */
     }

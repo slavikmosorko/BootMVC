@@ -8,7 +8,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@ComponentScan({"com.example.app", "com.example.worker"})
 @EnableScheduling
 public class WorkerApplication extends SpringBootServletInitializer {
 

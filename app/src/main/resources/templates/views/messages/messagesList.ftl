@@ -1,6 +1,7 @@
 <#include "../../includes/coreInclude.ftl">
 <@mainLayout.defaultLayout "Messages">
-<html>
+<script><#include "js/messagesList.js"></script>
+<html ng-app="messagesView" class="ng-scope">
 <script>
     (function ($) {
         $.fn.serializeFormJSON = function () {
@@ -21,25 +22,7 @@
         };
     })(jQuery);
 
-    function loadTable() {
-        $.ajax({
-            url: '/messages/list.json',
-            type: 'GET',
-            dataType: "json",
-            success: function (response) {
-                $('#loadingSpinner').hide();
-                $('#messagesTable').bootstrapTable({
-                    formatLoadingMessage: function () {
-                        return null;
-                    },
-                    data: response
-                });
-            }
-        });
-    }
-
     $(function () {
-        loadTable();
         $('#datetimepicker').datetimepicker({
             format: 'yyyy-mm-dd hh:ii:ss'
         });
@@ -56,7 +39,6 @@
                     type: 'post',
                     data: $(this).serializeFormJSON(),
                     success: function () {
-                        loadTable();
                         $("#sendButton").button('reset');
                         $("#content").prop('readonly', false);
                         $("#sendingDate").prop('readonly', false);
@@ -83,19 +65,29 @@
     <h1 class="display-3">Messages List</h1>
     <br>
     <div class="row">
-        <table class="table table-hover" id="messagesTable">
-            <thead>
-            <tr>
-                <th data-field="id">ID</th>
-                <th data-field="content">Content</th>
-                <th data-field="sendingDate">Sending Date</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-        <div id="loadingSpinner" class="col align-self-center text-center">
-            <span class="fa fa-circle-o-notch fa-spin" style="font-size:70px;color:#5cb85c;margin-bottom: 30px;"></span>
+        <div ng-controller="messagesViewController">
+            <table class="table table-hover" id="messagesTable">
+                <thead>
+                <tr>
+                    <th data-field="id">ID</th>
+                    <th data-field="content">Content</th>
+                    <th data-field="sendingDate">Sending Date</th>
+                    <th data-field="sendingDate">Sent</th>
+                </tr>
+                </thead>
+                <tbody ng-cloak>
+                <tr ng-repeat="message in messages">
+                    <td>{{message.id}}</td>
+                    <td>{{message.content}}</td>
+                    <td>{{message.sendingDate | date: 'yyyy-MM-dd HH:mm'}}</td>
+                    <td>{{message.sent}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div id="loadingSpinner" class="col align-self-center text-center" ng-show="loaded == false">
+                <span class="fa fa-circle-o-notch fa-spin"
+                      style="font-size:70px;color:#5cb85c;margin-bottom: 30px;"></span>
+            </div>
         </div>
         <button id="addButton" type="button" class="btn btn-success" data-toggle="collapse" data-target="#addDiv">Add
             message
