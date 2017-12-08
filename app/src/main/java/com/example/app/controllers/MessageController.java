@@ -36,7 +36,7 @@ public class MessageController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addPerson(@Valid Message message) {
+    public ResponseEntity<Void> addMessage(@Valid Message message) {
         try {
             messageService.addMessage(message);
             return new ResponseEntity<Void>(HttpStatus.OK);
