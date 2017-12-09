@@ -1,7 +1,7 @@
 var app = angular
     .module('messagesView', ['angularUtils.directives.dirPagination']);
 
-app.controller('messagesViewController', function ($rootScope, $log, messagesViewService) {
+app.controller('messagesViewController', function ($rootScope, $log, $interval, messagesViewService) {
     var msgCtrl = this;
     msgCtrl.loaded = false;
     msgCtrl.messages = [];
@@ -10,16 +10,20 @@ app.controller('messagesViewController', function ($rootScope, $log, messagesVie
     msgCtrl.msgPerPage = 8;
     msgCtrl.maxPaginationLinks = 5;
 
-    messagesViewService.getMessagesList()
-        .then(function (response) {
-                msgCtrl.messages = response.data;
-                updateEditingData();
-                msgCtrl.loaded = true;
-            },
-            function (reason) {
-                toastr.error('Error while loading messages!');
-                $log.error(reason);
-            });
+    msgCtrl.getMessagesList = function () {
+        messagesViewService.getMessagesList()
+            .then(function (response) {
+                    msgCtrl.messages = response.data;
+                    updateEditingData();
+                    msgCtrl.loaded = true;
+                },
+                function (reason) {
+                    toastr.error('Error while loading messages!');
+                    $log.error(reason);
+                });
+    };
+
+    msgCtrl.getMessagesList();
 
     msgCtrl.cancel = function (message) {
         msgCtrl.editingData[message.id] = false;
@@ -50,8 +54,6 @@ app.controller('messagesViewController', function ($rootScope, $log, messagesVie
             .then(function (response) {
                     var index = msgCtrl.messages.indexOf(message);
                     msgCtrl.messages.splice(index, 1);
-                    msgCtrl.editingData.splice(index, 1);
-                    msgCtrl.messageEdited.splice(index, 1);;
                 },
                 function (reason) {
                     msgCtrl.messageEdited[message.id] = true;
@@ -66,6 +68,8 @@ app.controller('messagesViewController', function ($rootScope, $log, messagesVie
             msgCtrl.messageEdited [msgCtrl.messages[i].id] = true;
         }
     };
+
+    $interval(msgCtrl.getMessagesList, 20000);
 
     $rootScope.$on("messageAdded", function () {
         messagesViewService.getMessagesList()
