@@ -138,8 +138,8 @@
                         </button>
                         <button type="submit" class="btn btn-primary" ng-disabled="!msgAMCtrl.messageAdded">
                             <div ng-show="msgAMCtrl.messageAdded">Add</div>
-                            <div ng-hide="msgAMCtrl.messageAdded">Adding</div>
-                            <i class="fa fa-circle-o-notch fa-spin" ng-hide="msgAMCtrl.messageAdded"></i>
+                            <i class="fa fa-circle-o-notch fa-spin" style="font-size:22px;"
+                               ng-hide="msgAMCtrl.messageAdded"></i>
                         </button>
                     </div>
                 </form>
