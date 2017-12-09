@@ -63,19 +63,19 @@
                     <td>
                         <div ng-hide="msgCtrl.editingData[message.id]">{{message.addressee}}</div>
                         <div ng-show="msgCtrl.editingData[message.id]">
-                            <input class="form-control" type="text"
+                            <input class="form-control" type="email"
                                    ng-show="msgCtrl.editingData[message.id]"
                                    ng-disabled="!msgCtrl.messageEdited[message.id]"
                                    value="{{message.addressee}}" ng-model="message.addressee">
                         </div>
                     </td>
                     <td>
-                        <div ng-hide="msgCtrl.editingData[message.id]">{{message.sendingDate | date: 'yyyy-MM-dd
-                            HH:mm'}}
+                        <div ng-hide="msgCtrl.editingData[message.id]">
+                            {{message.sendingDate | date: 'yyyy-MM-dd HH:mm'}}
                         </div>
                         <div ng-show="msgCtrl.editingData[message.id]">
                             <input type='text' class="form-control"
-                                   value="{{message.sendingDate | date: 'yyyy-MM-dd HH:mm'}}"
+                                   ng-value="message.sendingDate | date: 'yyyy-MM-dd HH:mm'"
                                    ng-disabled="!msgCtrl.messageEdited[message.id]"
                                    ng-model="message.sendingDate"/>
                         </div>
