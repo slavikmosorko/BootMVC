@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -14,13 +15,14 @@ public class EmailDao implements IEmailDao {
     private EntityManager entityManager;
 
     @Override
+    @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
     public void sendEmail(EmailDto email) {
         String nativeQuery = "" +
                 "UPDATE messages m" +
                 " SET m.sent = 1" +
                 " WHERE m.id = :emailId";
         Query query = entityManager
-                .createNativeQuery(nativeQuery, EmailDto.class)
+                .createNativeQuery(nativeQuery)
                 .setParameter("emailId", email.getId());
         query.executeUpdate();
     }

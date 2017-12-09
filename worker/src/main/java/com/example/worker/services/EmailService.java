@@ -23,7 +23,6 @@ public class EmailService implements IEmailService {
     public JavaMailSender emailSender;
 
     @Override
-    @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
     public void sendEmail(EmailDto email) {
         Runnable emailSenderThread = () -> {
             SimpleMailMessage message = new SimpleMailMessage();
