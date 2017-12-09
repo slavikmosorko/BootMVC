@@ -1,17 +1,6 @@
-<#include "../includes/coreInclude.ftl">
-
+<#import "/spring.ftl" as spring />
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
 <html>
-<script>
-    $(document).ready(function () {
-        $('.forgot-pass').click(function (event) {
-            $(".pr-wrap").toggleClass("show-pass-reset");
-        });
-
-        $('.pass-reset-submit').click(function (event) {
-            $(".pr-wrap").removeClass("show-pass-reset");
-        });
-    });
-</script>
 <head>
     <title>Sign In</title>
 </head>

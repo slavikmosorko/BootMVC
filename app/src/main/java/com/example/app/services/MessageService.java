@@ -34,8 +34,13 @@ public class MessageService implements IMessageService {
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
-    public void updateMessage(long messageId) {
-        messageDAO.updateMessage(messageId);
+    public void updateMessage(Message message) {
+        try {
+            messageDAO.updateMessage(message);
+            logger.info("Message ID: " + message.getId() + " updated successfully!");
+        } catch (Exception e) {
+            logger.error("Message ID: " + message.getId() + " updating failed!", e);
+        }
     }
 
     @Override
@@ -49,9 +54,20 @@ public class MessageService implements IMessageService {
     public void addMessage(Message message) {
         try {
             messageDAO.addMessage(message);
-            logger.info("Message ID:" + message.getId() + " added successfully!");
+            logger.info("Message ID: " + message.getId() + " added successfully!");
         } catch (Exception e) {
-            logger.error("Message ID:" + message.getId() + "adding failed!", e);
+            logger.error("Message ID: " + message.getId() + " adding failed!", e);
+        }
+    }
+
+    @Override
+    @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
+    public void deleteMessage(long messageId) {
+        try {
+            messageDAO.deleteMessage(messageId);
+            logger.info("Message ID: " + messageId + " deleted successfully!");
+        } catch (Exception e) {
+            logger.error("Message ID: " + messageId + " deleting failed!", e);
         }
     }
 }

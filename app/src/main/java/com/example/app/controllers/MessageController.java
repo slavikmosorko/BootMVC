@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Controller
@@ -46,4 +47,25 @@ public class MessageController {
         return new ResponseEntity<Void>(HttpStatus.CONFLICT);
     }
 
+    @GetMapping("/delete")
+    public ResponseEntity<Void> deleteMessage(@NotNull long messageId) {
+        try {
+            messageService.deleteMessage(messageId);
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println("Can't delete message!");
+        }
+        return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+    }
+
+    @PostMapping("/edit")
+    public ResponseEntity<Void> editMessage(@Valid Message message) {
+        try {
+            messageService.updateMessage(message);
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println("Can't update message!");
+        }
+        return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+    }
 }

@@ -1,6 +1,6 @@
-app.filter('sentFilter', function(){
-    return function(sent) {
-        switch(sent){
+app.filter('sentFilter', function () {
+    return function (sent) {
+        switch (sent) {
             case true:
                 return 'Yes';
             case false:

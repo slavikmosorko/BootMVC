@@ -15,8 +15,12 @@ public class MessageDAO implements IMessageDAO {
 
     @Override
     public List<Message> getAllMessages() {
-        String hql = "FROM Message as msg ORDER BY msg.id";
-        return (List<Message>) entityManager.createQuery(hql).getResultList();
+        String hql = "" +
+                "FROM Message as msg" +
+                " WHERE msg.deleted = 0" +
+                " ORDER BY msg.id";
+        return (List<Message>) entityManager
+                .createQuery(hql).getResultList();
     }
 
     @Override
@@ -30,9 +34,20 @@ public class MessageDAO implements IMessageDAO {
     }
 
     @Override
-    public void updateMessage(long messageId) {
-        Message message = entityManager.find(Message.class, messageId);
-        message.setSent(true);
+    public void updateMessage(Message message) {
+        entityManager.merge(message);
+    }
+
+    @Override
+    public void deleteMessage(long messageId) {
+        String nativeQuery = "" +
+                "UPDATE messages m" +
+                " SET m.deleted = 1" +
+                " WHERE m.id = :messageId";
+        Query query = entityManager
+                .createNativeQuery(nativeQuery, Message.class)
+                .setParameter("messageId", messageId);
+        query.executeUpdate();
     }
 
     @Override
@@ -42,7 +57,8 @@ public class MessageDAO implements IMessageDAO {
                 "WHERE m.sent = 0 " +
                 "AND m.sending_date BETWEEN " +
                 "(NOW() - INTERVAL 1 MINUTE) AND NOW()";
-        Query query = entityManager.createNativeQuery(nativeQuery, Message.class);
+        Query query = entityManager
+                .createNativeQuery(nativeQuery, Message.class);
         return query.getResultList();
     }
 }

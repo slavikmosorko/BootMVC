@@ -12,7 +12,9 @@ public interface IMessageService {
 
     void addMessage(Message message);
 
-    void updateMessage(long messageId);
+    void updateMessage(Message message);
+
+    void deleteMessage(long messageId);
 
     List<Message> getAllUnprocessedMessages();
 }

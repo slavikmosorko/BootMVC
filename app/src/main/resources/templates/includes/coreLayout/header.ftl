@@ -6,10 +6,10 @@
     }
 
     .navbar-nav li a:hover {
-        color: #1abc9c !important;
+        color: #009688 !important;
     }
 </style>
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="/">BootMVC</a>

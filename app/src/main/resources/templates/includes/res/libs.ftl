@@ -6,3 +6,4 @@
 <script src="/webjars/angularjs/1.6.6/angular.min.js"></script>
 <script src="/webjars/bootstrap-datetimepicker/2.4.2/js/bootstrap-datetimepicker.min.js"></script>
 <script src="/webjars/toastr/2.1.2/build/toastr.min.js"></script>
+<script src="/templates/techie/js/typeahead.min.js"></script>

@@ -2,8 +2,4 @@
 <link rel="stylesheet" href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css"/>
 <link rel="stylesheet" href="/webjars/bootstrap-datetimepicker/2.4.2/css/bootstrap-datetimepicker.min.css"/>
 <link rel="stylesheet" href="/webjars/toastr/2.1.2/build/toastr.min.css"/>
-<style>
-    label.error {
-        color: red;
-    }
-</style>
+<link rel="stylesheet" href="/templates/techie/css/bootstrap.techie.css"/>
