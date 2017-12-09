@@ -11,7 +11,7 @@
         right: 0;
         bottom: 0;
         left: 0;
-        padding-top: 13px;
+        /*padding-top: 13px;*/
         text-align: center;
     }
 </style>
