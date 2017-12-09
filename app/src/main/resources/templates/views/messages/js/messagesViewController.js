@@ -45,13 +45,16 @@ app.controller('messagesViewController', function ($rootScope, $log, messagesVie
     };
 
     msgCtrl.deleteMessage = function (message) {
+        msgCtrl.messageEdited[message.id] = false;
         messagesViewService.deleteMessage(message.id)
             .then(function (response) {
                     var index = msgCtrl.messages.indexOf(message);
                     msgCtrl.messages.splice(index, 1);
                     msgCtrl.editingData.splice(index, 1);
+                    msgCtrl.messageEdited.splice(index, 1);;
                 },
                 function (reason) {
+                    msgCtrl.messageEdited[message.id] = true;
                     toastr.error('Error while deleting message!');
                     $log.error(reason);
                 });

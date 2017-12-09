@@ -67,10 +67,15 @@
                     </td>
                     <td>
                         <button type="button" class="btn btn-primary" ng-hide="msgCtrl.editingData[message.id]"
-                                ng-click="msgCtrl.edit(message)">Edit
+                                ng-click="msgCtrl.edit(message)"
+                                ng-disabled="!msgCtrl.messageEdited[message.id]">Edit
                         </button>
                         <button type="button" class="btn btn-danger" ng-hide="msgCtrl.editingData[message.id]"
-                                ng-click="msgCtrl.deleteMessage(message)">Delete
+                                ng-click="msgCtrl.deleteMessage(message)"
+                                ng-disabled="!msgCtrl.messageEdited[message.id]">
+                            <div ng-show="msgCtrl.messageEdited[message.id]">Delete</div>
+                            <i class="fa fa-cog fa-spin" style="font-size:22px;"
+                               ng-hide="msgCtrl.messageEdited[message.id]"></i>
                         </button>
                         <button type="button" class="btn btn-primary" ng-show="msgCtrl.editingData[message.id]"
                                 ng-click="msgCtrl.editMessage(message)"
