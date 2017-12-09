@@ -6,7 +6,7 @@
     <groupId>com.example</groupId>
     <artifactId>worker</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>worker</name>
     <description>Demo project for Spring Boot</description>
@@ -94,9 +94,6 @@
                         <goals>
                             <goal>repackage</goal>
                         </goals>
-                        <configuration>
-                            <classifier>worker</classifier>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

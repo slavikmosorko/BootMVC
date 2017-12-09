@@ -154,9 +154,6 @@
                         <goals>
                             <goal>repackage</goal>
                         </goals>
-                        <configuration>
-                            <classifier>app</classifier>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

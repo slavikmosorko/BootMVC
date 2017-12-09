@@ -132,6 +132,11 @@
                                    ng-model="msgAMCtrl.messageData.content" ng-disabled="!msgAMCtrl.messageAdded">
                         </div>
                         <div class="form-group">
+                            <label for="addressee">Addressee:</label>
+                            <input class="form-control" type="text" name="addressee"
+                                   ng-model="msgAMCtrl.messageData.addressee" ng-disabled="!msgAMCtrl.messageAdded">
+                        </div>
+                        <div class="form-group">
                             <label for="sendingDate">Date:</label>
                             <div class='input-group date datetimepicker'>
                                 <input type='text' class="form-control" name="sendingDate"
