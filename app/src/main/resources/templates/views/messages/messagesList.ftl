@@ -4,20 +4,30 @@
         <#include "js/messagesViewController.js">
         <#include "js/messagesViewService.js">
         <#include "js/messagesViewFilter.js">
+        <#include "../../includes/angular/directives/loadingSpinner.js">
+        <#include "../../includes/angular/directives/dirPagination.js">
     $(function () {
+        $('#messagesli').addClass('active');
         $('.datetimepicker').datetimepicker({
             format: 'yyyy-mm-dd hh:ii:ss'
         });
     });
 </script>
 <html ng-app="messagesView" class="ng-scope">
-<head>
-    <title>Messages List</title>
-</head>
 <body>
-<div class="container">
-    <h1 class="display-3">Messages List</h1>
-    <br>
+<div class="container" ng-cloak>
+    <div class="row">
+        <h1 class="display-3">Messages List</h1>
+        <br>
+    </div>
+    <div class="row">
+        <div class="col-sm text-right">
+            <button id="addButton" type="button" class="btn btn-primary" data-toggle="modal"
+                    data-target="#addMessageModal">
+                Add message
+            </button>
+        </div>
+    </div>
     <div class="row">
         <div ng-controller="messagesViewController as msgCtrl">
             <table class="table table-hover" id="messagesTable">
@@ -30,14 +40,15 @@
                     <th></th>
                 </tr>
                 </thead>
-                <tbody ng-cloak>
-                <tr ng-repeat="message in msgCtrl.messages">
+                <tbody>
+                <tr dir-paginate="message in msgCtrl.messages|orderBy:message.id:reverse|itemsPerPage:msgCtrl.msgPerPage">
                     <td>{{message.id}}</td>
                     <td>
                         <div ng-hide="msgCtrl.editingData[message.id]">{{message.content}}</div>
                         <div ng-show="msgCtrl.editingData[message.id]">
                             <input class="form-control" type="text"
                                    ng-show="msgCtrl.editingData[message.id]"
+                                   ng-disabled="!msgCtrl.messageEdited[message.id]"
                                    value="{{message.content}}" ng-model="message.content">
                         </div>
                     </td>
@@ -48,6 +59,7 @@
                         <div ng-show="msgCtrl.editingData[message.id]">
                             <input type='text' class="form-control"
                                    value="{{message.sendingDate | date: 'yyyy-MM-dd HH:mm'}}"
+                                   ng-disabled="!msgCtrl.messageEdited[message.id]"
                                    ng-model="message.sendingDate"/>
                         </div>
                     </td>
@@ -61,67 +73,71 @@
                                 ng-click="msgCtrl.deleteMessage(message)">Delete
                         </button>
                         <button type="button" class="btn btn-primary" ng-show="msgCtrl.editingData[message.id]"
-                                ng-click="msgCtrl.editMessage(message)" ng-disabled="!msgCtrl.messageEdited">Save
+                                ng-click="msgCtrl.editMessage(message)"
+                                ng-disabled="!msgCtrl.messageEdited[message.id]">
+                            <div ng-show="msgCtrl.messageEdited[message.id]">Save</div>
+                            <i class="fa fa-cog fa-spin" style="font-size:22px;"
+                               ng-hide="msgCtrl.messageEdited[message.id]"></i>
                         </button>
                         <button type="button" class="btn btn-danger" ng-show="msgCtrl.editingData[message.id]"
-                                ng-click="msgCtrl.cancel(message)" ng-disabled="!msgCtrl.messageEdited">Cancel
+                                ng-click="msgCtrl.cancel(message)" ng-disabled="!msgCtrl.messageEdited[message.id]">
+                            Cancel
                         </button>
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <div id="loadingSpinner" class="col align-self-center text-center" ng-show="!msgCtrl.loaded">
-                <div class="sk-cube-grid">
-                    <div class="sk-cube sk-cube1"></div>
-                    <div class="sk-cube sk-cube2"></div>
-                    <div class="sk-cube sk-cube3"></div>
-                    <div class="sk-cube sk-cube4"></div>
-                    <div class="sk-cube sk-cube5"></div>
-                    <div class="sk-cube sk-cube6"></div>
-                    <div class="sk-cube sk-cube7"></div>
-                    <div class="sk-cube sk-cube8"></div>
-                    <div class="sk-cube sk-cube9"></div>
-                </div>
+            <div class="col align-self-center text-center" ng-show="!msgCtrl.loaded">
+                <loading-spinner></loading-spinner>
+            </div>
+            <div class="col-sm text-center">
+                <dir-pagination-controls class="pagination"
+                                         max-size="msgCtrl.maxPaginationLinks"
+                                         direction-links="true"
+                                         boundary-links="true">
+                </dir-pagination-controls>
             </div>
         </div>
-        <button id="addButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMessageModal">
-            Add message
-        </button>
-        <!-- Modal -->
-        <div class="modal fade" id="addMessageModal" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content" ng-controller="messagesViewAddMessageModalController as msgAMCtrl">
-                    <form name="messageForm" ng-submit="msgAMCtrl.addMessage()">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Add message</h4>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="addMessageModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content" ng-controller="messagesViewAddMessageModalController as msgAMCtrl">
+                <form name="messageForm" ng-submit="msgAMCtrl.addMessage()">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Add message</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="content">Content:</label>
+                            <input class="form-control" type="text" name="content"
+                                   ng-model="msgAMCtrl.messageData.content" ng-disabled="!msgAMCtrl.messageAdded">
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="content">Content:</label>
-                                <input class="form-control" type="text" name="content"
-                                       ng-model="msgAMCtrl.messageData.content">
-                            </div>
-                            <div class="form-group">
-                                <label for="sendingDate">Date:</label>
-                                <div class='input-group date datetimepicker'>
-                                    <input type='text' class="form-control" name="sendingDate"
-                                           ng-model="msgAMCtrl.messageData.sendingDate"/>
-                                    <span class="input-group-addon">
+                        <div class="form-group">
+                            <label for="sendingDate">Date:</label>
+                            <div class='input-group date datetimepicker'>
+                                <input type='text' class="form-control" name="sendingDate"
+                                       ng-model="msgAMCtrl.messageData.sendingDate"
+                                       ng-disabled="!msgAMCtrl.messageAdded"/>
+                                <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
-                                </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" ng-disabled="!msgAMCtrl.messageAdded">
-                                Add
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                                ng-disabled="!msgAMCtrl.messageAdded">Close
+                        </button>
+                        <button type="submit" class="btn btn-primary" ng-disabled="!msgAMCtrl.messageAdded">
+                            <div ng-show="msgAMCtrl.messageAdded">Add</div>
+                            <div ng-hide="msgAMCtrl.messageAdded">Adding</div>
+                            <i class="fa fa-circle-o-notch fa-spin" ng-hide="msgAMCtrl.messageAdded"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

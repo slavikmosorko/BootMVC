@@ -1,11 +1,12 @@
 <#include "../includes/coreInclude.ftl">
 <@mainLayout.defaultLayout "Home">
+<script>
+    $('#homeli').addClass('active');
+</script>
 <html>
-<head>
-    <title>Main Page</title>
     <style>
         .margin {
-            margin-bottom: 45px;
+            margin-bottom: 43px;
         }
 
         .container-fluid2 {

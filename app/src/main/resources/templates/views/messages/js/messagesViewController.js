@@ -1,12 +1,14 @@
 var app = angular
-    .module('messagesView', []);
+    .module('messagesView', ['angularUtils.directives.dirPagination']);
 
 app.controller('messagesViewController', function ($rootScope, $log, messagesViewService) {
     var msgCtrl = this;
     msgCtrl.loaded = false;
     msgCtrl.messages = [];
     msgCtrl.editingData = {};
-    msgCtrl.messageEdited = true;
+    msgCtrl.messageEdited = {};
+    msgCtrl.msgPerPage = 8;
+    msgCtrl.maxPaginationLinks = 5;
 
     messagesViewService.getMessagesList()
         .then(function (response) {
@@ -28,15 +30,15 @@ app.controller('messagesViewController', function ($rootScope, $log, messagesVie
     };
 
     msgCtrl.editMessage = function (message) {
-        msgCtrl.messageEdited = false;
+        msgCtrl.messageEdited[message.id] = false;
         messagesViewService.editMessage(message)
             .then(function (response) {
                     msgCtrl.editingData[message.id] = false;
-                    msgCtrl.messageEdited = true;
-                    toastr.success('Message edited successfully!');
+                    msgCtrl.messageEdited[message.id] = true;
                 },
                 function (reason) {
                     msgCtrl.messageEdited = true;
+                    msgCtrl.messageEdited[message.id] = true;
                     toastr.error('Error while editing message!');
                     $log.error(reason);
                 });
@@ -58,6 +60,7 @@ app.controller('messagesViewController', function ($rootScope, $log, messagesVie
     var updateEditingData = function () {
         for (var i = 0, length = msgCtrl.messages.length; i < length; i++) {
             msgCtrl.editingData [msgCtrl.messages[i].id] = false;
+            msgCtrl.messageEdited [msgCtrl.messages[i].id] = true;
         }
     };
 

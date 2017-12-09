@@ -3,20 +3,22 @@
 <html>
 <head>
     <title>${title}</title>
+    <style>
+            <#include "defaultLeyout.css"/>
+    </style>
 </head>
-<style>
-    .defaultbody {
-        /*font: 18px Montserrat, sans-serif;*/
-        position: relative;
-        margin: 0;
-        padding-bottom: 40px;
-        min-height: 100%;
-        background-color: #ffffff; /* White */
-    }
-</style>
 <body class="defaultbody">
     <#include "header.ftl"/>
-    <#nested/>
+<table class="alllayout">
+    <tr>
+        <td class="menu" valign="top">
+            <#include "menu.ftl"/>
+        </td>
+        <td class="defaultcontent">
+            <#nested/>
+        </td>
+    </tr>
+</table>
     <#include "footer.ftl"/>
 </body>
 </html>

@@ -3272,16 +3272,16 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom: 0;
 }
 .nav-tabs.nav-stacked > li {
-  margin-bottom: 5.75px;
-  border: 1px solid #EDEDED;
-  border-bottom: 1px solid #d1d1d1;
+  /*margin-bottom: 5.75px;*/
+  /*border: 1px solid #EDEDED;*/
+  /*border-bottom: 1px solid #d1d1d1;*/
 }
 .nav-tabs.nav-stacked > li > a {
   margin: 0;
   border: 0;
   border-left: 5px solid #ddd;
-  background-color: #fff;
-  padding: 14px 18px;
+  background-color: whitesmoke;
+  /*padding: 14px 18px;*/
   border-radius: 0;
   -webkit-transition: background 0.3s ease-out;
   -o-transition: background 0.3s ease-out;
@@ -3293,7 +3293,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-tabs.nav-stacked > .active > a:hover,
 .nav-tabs.nav-stacked > .active > a:focus {
   color: #fff;
-  padding: 14px 18px;
+  /*padding: 14px 18px;*/
   border: 0;
   border-left: 5px solid #418d49;
   background-color: #009688;
