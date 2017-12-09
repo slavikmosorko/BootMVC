@@ -14,6 +14,7 @@ app.controller('messagesViewController', function ($rootScope, $log, $interval, 
         messagesViewService.getMessagesList()
             .then(function (response) {
                     msgCtrl.messages = response.data;
+                    $log.info(response.data);
                     updateEditingData();
                     msgCtrl.loaded = true;
                 },
@@ -41,7 +42,7 @@ app.controller('messagesViewController', function ($rootScope, $log, $interval, 
                     msgCtrl.messageEdited[message.id] = true;
                 },
                 function (reason) {
-                    msgCtrl.messageEdited = true;
+                    msgCtrl.editingData[message.id] = false;
                     msgCtrl.messageEdited[message.id] = true;
                     toastr.error('Error while editing message!');
                     $log.error(reason);
@@ -69,7 +70,7 @@ app.controller('messagesViewController', function ($rootScope, $log, $interval, 
         }
     };
 
-    $interval(msgCtrl.getMessagesList, 20000);
+    // $interval(msgCtrl.getMessagesList, 20000);
 
     $rootScope.$on("messageAdded", function () {
         messagesViewService.getMessagesList()

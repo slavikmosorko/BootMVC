@@ -15,6 +15,4 @@ public interface IMessageService {
     void updateMessage(Message message);
 
     void deleteMessage(long messageId);
-
-    List<Message> getAllUnprocessedMessages();
 }

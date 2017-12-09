@@ -23,9 +23,26 @@ public class Message implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     @NotNull
     private Date sendingDate;
+    private String addressee;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public String getAddressee() {
+        return addressee;
+    }
+
+    public void setAddressee(String addressee) {
+        this.addressee = addressee;
     }
 
     public boolean isSent() {

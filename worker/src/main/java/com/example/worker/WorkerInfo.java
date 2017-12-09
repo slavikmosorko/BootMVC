@@ -9,7 +9,7 @@ public class WorkerInfo {
     private final Logger log = Logger.getLogger(this.getClass());
     private static long doneTasksAmount = 0;
 
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 30000)
     public void workerInfo() {
         log.info("Tasks done: " + doneTasksAmount);
     }

@@ -21,20 +21,22 @@
         <br>
     </div>
     <div class="row">
-        <div class="col-sm text-right">
-            <button id="addButton" type="button" class="btn btn-primary" data-toggle="modal"
-                    data-target="#addMessageModal">
-                Add message
-            </button>
-        </div>
-    </div>
-    <div class="row">
         <div ng-controller="messagesViewController as msgCtrl">
+                <div class="col-sm-12 text-right">
+                    <button id="addButton" type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#addMessageModal">
+                        Add message
+                    </button>
+                    <button type="button" class="btn btn-info" ng-click="msgCtrl.getMessagesList()">
+                        <i class="fa fa-refresh" style="font-size:23px"></i>
+                    </button>
+                </div>
             <table class="table table-hover" id="messagesTable">
                 <thead class="thead-dark">
                 <tr>
                     <th data-field="id">ID</th>
                     <th data-field="content">Content</th>
+                    <th data-field="content">Addressee</th>
                     <th data-field="sendingDate">Sending Date</th>
                     <th data-field="Sent">Sent</th>
                     <th></th>
@@ -50,6 +52,15 @@
                                    ng-show="msgCtrl.editingData[message.id]"
                                    ng-disabled="!msgCtrl.messageEdited[message.id]"
                                    value="{{message.content}}" ng-model="message.content">
+                        </div>
+                    </td>
+                    <td>
+                        <div ng-hide="msgCtrl.editingData[message.id]">{{message.addressee}}</div>
+                        <div ng-show="msgCtrl.editingData[message.id]">
+                            <input class="form-control" type="text"
+                                   ng-show="msgCtrl.editingData[message.id]"
+                                   ng-disabled="!msgCtrl.messageEdited[message.id]"
+                                   value="{{message.addressee}}" ng-model="message.addressee">
                         </div>
                     </td>
                     <td>

@@ -21,13 +21,11 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
     public List<Message> getAllMessages() {
         return messageDAO.getAllMessages();
     }
 
     @Override
-    @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
     public Message getMessageById(long messageId) {
         return messageDAO.getMessageById(messageId);
     }
@@ -41,12 +39,6 @@ public class MessageService implements IMessageService {
         } catch (Exception e) {
             logger.error("Message ID: " + message.getId() + " updating failed!", e);
         }
-    }
-
-    @Override
-    @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
-    public List<Message> getAllUnprocessedMessages() {
-        return messageDAO.getAllUnprocessedMessages();
     }
 
     @Override
