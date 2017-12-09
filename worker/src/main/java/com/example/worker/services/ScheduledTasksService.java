@@ -20,7 +20,7 @@ public class ScheduledTasksService {
         this.emailService = emailService;
     }
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 30000)
     public void sendMassaging() {
         if (messageList.isEmpty()) {
             messageList = emailService.getAllUnprocessedEmails();

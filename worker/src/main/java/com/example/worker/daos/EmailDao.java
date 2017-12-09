@@ -27,7 +27,7 @@ public class EmailDao implements IEmailDao {
 
     @Override
     public List<EmailDto> getAllUnprocessedEmails() {
-        String timeZonePrefix = "(date_sub(NOW(), INTERVAL -8 HOUR))";
+        String timeZonePrefix = "(date_sub(NOW(), INTERVAL -9 HOUR))";
         String nativeQuery = "" +
                 "SELECT id, content, addressee FROM messages m " +
                 "WHERE m.sent = 0 " +
