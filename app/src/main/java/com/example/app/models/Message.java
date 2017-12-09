@@ -24,9 +24,18 @@ public class Message implements Serializable {
     @NotNull
     private Date sendingDate;
     private String addressee;
+    private String subject;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public boolean isDeleted() {

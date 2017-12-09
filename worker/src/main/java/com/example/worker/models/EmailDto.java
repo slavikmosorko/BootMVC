@@ -9,8 +9,17 @@ import javax.persistence.Table;
 public class EmailDto {
     @Id
     private long id;
+    private String subject;
     private String content;
     private String addressee;
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
     public long getId() {
         return id;

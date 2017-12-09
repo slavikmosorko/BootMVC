@@ -27,7 +27,7 @@ public class EmailService implements IEmailService {
         Runnable emailSenderThread = () -> {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(email.getAddressee());
-            message.setSubject("Email from BootMVC Api");
+            message.setSubject(email.getSubject());
             message.setFrom("SpringBoot@apimail.com");
             message.setText(email.getContent());
             try {

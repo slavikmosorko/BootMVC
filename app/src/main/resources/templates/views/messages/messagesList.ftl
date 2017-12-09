@@ -22,19 +22,20 @@
     </div>
     <div class="row">
         <div ng-controller="messagesViewController as msgCtrl">
-                <div class="col-sm-12 text-right">
-                    <button id="addButton" type="button" class="btn btn-primary" data-toggle="modal"
-                            data-target="#addMessageModal">
-                        Add message
-                    </button>
-                    <button type="button" class="btn btn-info" ng-click="msgCtrl.getMessagesList()">
-                        <i class="fa fa-refresh" style="font-size:23px"></i>
-                    </button>
-                </div>
+            <div class="col-sm-12 text-right">
+                <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#addMessageModal">
+                    Add message
+                </button>
+                <button type="button" class="btn btn-info" ng-click="msgCtrl.getMessagesList()">
+                    <i class="fa fa-refresh" style="font-size:23px"></i>
+                </button>
+            </div>
             <table class="table table-hover" id="messagesTable">
                 <thead class="thead-dark">
                 <tr>
                     <th data-field="id">ID</th>
+                    <th data-field="content">Subject</th>
                     <th data-field="content">Content</th>
                     <th data-field="content">Addressee</th>
                     <th data-field="sendingDate">Sending Date</th>
@@ -46,13 +47,18 @@
                 <tr dir-paginate="message in msgCtrl.messages|orderBy:message.id:reverse|itemsPerPage:msgCtrl.msgPerPage">
                     <td>{{message.id}}</td>
                     <td>
-                        <div ng-hide="msgCtrl.editingData[message.id]">{{message.content}}</div>
+                        <div ng-hide="msgCtrl.editingData[message.id]">{{message.subject}}</div>
                         <div ng-show="msgCtrl.editingData[message.id]">
                             <input class="form-control" type="text"
                                    ng-show="msgCtrl.editingData[message.id]"
                                    ng-disabled="!msgCtrl.messageEdited[message.id]"
-                                   value="{{message.content}}" ng-model="message.content">
+                                   value="{{message.subject}}" ng-model="message.subject">
                         </div>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                data-target="#previewModel" ng-click="msgCtrl.preview(message)">Preview
+                        </button>
                     </td>
                     <td>
                         <div ng-hide="msgCtrl.editingData[message.id]">{{message.addressee}}</div>
@@ -77,25 +83,25 @@
                     <td class="text-center" ng-class="message.sent ? 'success' : 'danger'">{{message.sent | sentFilter}}
                     </td>
                     <td>
-                        <button type="button" class="btn btn-primary" ng-hide="msgCtrl.editingData[message.id]"
+                        <button type="button" class="btn btn-primary btn-sm" ng-hide="msgCtrl.editingData[message.id]"
                                 ng-click="msgCtrl.edit(message)"
                                 ng-disabled="!msgCtrl.messageEdited[message.id]">Edit
                         </button>
-                        <button type="button" class="btn btn-danger" ng-hide="msgCtrl.editingData[message.id]"
+                        <button type="button" class="btn btn-danger btn-sm" ng-hide="msgCtrl.editingData[message.id]"
                                 ng-click="msgCtrl.deleteMessage(message)"
                                 ng-disabled="!msgCtrl.messageEdited[message.id]">
                             <div ng-show="msgCtrl.messageEdited[message.id]">Delete</div>
                             <i class="fa fa-cog fa-spin" style="font-size:22px;"
                                ng-hide="msgCtrl.messageEdited[message.id]"></i>
                         </button>
-                        <button type="button" class="btn btn-primary" ng-show="msgCtrl.editingData[message.id]"
+                        <button type="button" class="btn btn-primary btn-sm" ng-show="msgCtrl.editingData[message.id]"
                                 ng-click="msgCtrl.editMessage(message)"
                                 ng-disabled="!msgCtrl.messageEdited[message.id]">
                             <div ng-show="msgCtrl.messageEdited[message.id]">Save</div>
                             <i class="fa fa-cog fa-spin" style="font-size:22px;"
                                ng-hide="msgCtrl.messageEdited[message.id]"></i>
                         </button>
-                        <button type="button" class="btn btn-danger" ng-show="msgCtrl.editingData[message.id]"
+                        <button type="button" class="btn btn-danger btn-sm" ng-show="msgCtrl.editingData[message.id]"
                                 ng-click="msgCtrl.cancel(message)" ng-disabled="!msgCtrl.messageEdited[message.id]">
                             Cancel
                         </button>
@@ -113,6 +119,28 @@
                                          boundary-links="true">
                 </dir-pagination-controls>
             </div>
+            <!-- Modal -->
+            <div class="modal fade" id="previewModel" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Email preview</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <iframe width="100%" height="50%"
+                                        src="{{msgCtrl.previewMessageUrl}}">
+                                </iframe>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- Modal -->
@@ -127,21 +155,29 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="content">Content:</label>
-                            <input class="form-control" type="text" name="content"
-                                   ng-model="msgAMCtrl.messageData.content" ng-disabled="!msgAMCtrl.messageAdded">
-                        </div>
-                        <div class="form-group">
                             <label for="addressee">Addressee:</label>
-                            <input class="form-control" type="text" name="addressee"
-                                   ng-model="msgAMCtrl.messageData.addressee" ng-disabled="!msgAMCtrl.messageAdded">
+                            <input class="form-control" type="email" name="addressee"
+                                   ng-model="msgAMCtrl.messageData.addressee" ng-disabled="!msgAMCtrl.messageAdded"
+                                   required>
                         </div>
                         <div class="form-group">
-                            <label for="sendingDate">Date:</label>
+                            <label for="subject">Subject:</label>
+                            <input class="form-control" type="text" name="subject"
+                                   ng-model="msgAMCtrl.messageData.subject" ng-disabled="!msgAMCtrl.messageAdded"
+                                   required>
+                        </div>
+                        <div class="form-group">
+                            <label for="content">Content:</label>
+                            <textarea class="form-control" rows="15" name="emailContent"
+                                      ng-model="msgAMCtrl.messageData.content"
+                                      ng-disabled="!msgAMCtrl.messageAdded" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="sendingDate">Sending Date:</label>
                             <div class='input-group date datetimepicker'>
                                 <input type='text' class="form-control" name="sendingDate"
                                        ng-model="msgAMCtrl.messageData.sendingDate"
-                                       ng-disabled="!msgAMCtrl.messageAdded"/>
+                                       ng-disabled="!msgAMCtrl.messageAdded" required/>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                     </span>

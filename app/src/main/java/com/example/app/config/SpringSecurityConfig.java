@@ -74,7 +74,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .exceptionHandling()
-                .accessDeniedPage("/access_denied");
+                .accessDeniedPage("/access_denied")
+                .and()
+                .headers()
+                .frameOptions()
+                .sameOrigin();
     }
 
     @Autowired

@@ -51,6 +51,17 @@ public class MessageDAO implements IMessageDAO {
     }
 
     @Override
+    public String previewMessage(long messageId) {
+        String nativeQuery = "" +
+                "SELECT content FROM messages m" +
+                " WHERE m.id = :messageId";
+        Query query = entityManager
+                .createNativeQuery(nativeQuery)
+                .setParameter("messageId", messageId);
+        return query.getSingleResult().toString();
+    }
+
+    @Override
     public List<Message> getAllUnprocessedMessages() {
         String nativeQuery = "" +
                 "SELECT * FROM messages m " +

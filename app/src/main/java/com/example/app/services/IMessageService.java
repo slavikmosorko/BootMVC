@@ -15,4 +15,6 @@ public interface IMessageService {
     void updateMessage(Message message);
 
     void deleteMessage(long messageId);
+
+    String previewMessage(long messageId);
 }

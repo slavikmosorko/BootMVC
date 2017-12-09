@@ -1,7 +1,7 @@
 var app = angular
     .module('messagesView', ['angularUtils.directives.dirPagination']);
 
-app.controller('messagesViewController', function ($rootScope, $log, $interval, messagesViewService) {
+app.controller('messagesViewController', function ($rootScope, $log, $interval, $sce, messagesViewService) {
     var msgCtrl = this;
     msgCtrl.loaded = false;
     msgCtrl.messages = [];
@@ -9,6 +9,7 @@ app.controller('messagesViewController', function ($rootScope, $log, $interval, 
     msgCtrl.messageEdited = {};
     msgCtrl.msgPerPage = 8;
     msgCtrl.maxPaginationLinks = 5;
+    msgCtrl.previewMessageUrl = "";
 
     msgCtrl.getMessagesList = function () {
         messagesViewService.getMessagesList()
@@ -25,6 +26,10 @@ app.controller('messagesViewController', function ($rootScope, $log, $interval, 
     };
 
     msgCtrl.getMessagesList();
+
+    msgCtrl.preview = function (message) {
+        msgCtrl.previewMessageUrl = '/messages/preview?messageId=' + message.id;
+    };
 
     msgCtrl.cancel = function (message) {
         msgCtrl.editingData[message.id] = false;

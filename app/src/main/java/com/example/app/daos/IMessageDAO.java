@@ -16,5 +16,7 @@ public interface IMessageDAO {
 
     void deleteMessage(long messageId);
 
+    String previewMessage(long messageId);
+
     List<Message> getAllUnprocessedMessages();
 }

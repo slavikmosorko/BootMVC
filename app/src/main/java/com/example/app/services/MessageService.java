@@ -62,4 +62,9 @@ public class MessageService implements IMessageService {
             logger.error("Message ID: " + messageId + " deleting failed!", e);
         }
     }
+
+    @Override
+    public String previewMessage(long messageId) {
+        return messageDAO.previewMessage(messageId);
+    }
 }

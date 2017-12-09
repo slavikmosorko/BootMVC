@@ -31,7 +31,7 @@ public class EmailDao implements IEmailDao {
     public List<EmailDto> getAllUnprocessedEmails() {
         String timeZonePrefix = "(date_sub(NOW(), INTERVAL -9 HOUR))";
         String nativeQuery = "" +
-                "SELECT id, content, addressee FROM messages m " +
+                "SELECT id, content, subject addressee FROM messages m " +
                 "WHERE m.sent = 0 " +
                 "AND m.deleted = 0 " +
                 "AND (m.sending_date BETWEEN " +

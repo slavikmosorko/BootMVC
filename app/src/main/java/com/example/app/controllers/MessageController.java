@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -67,5 +68,16 @@ public class MessageController {
             System.out.println("Can't update message!");
         }
         return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+    }
+
+    @GetMapping("/preview")
+    @ResponseBody
+    public String previewMessage(@NotNull long messageId) {
+        try {
+            return messageService.previewMessage(messageId);
+        } catch (Exception e) {
+            System.out.println("Can't preview message!");
+        }
+        return "";
     }
 }
