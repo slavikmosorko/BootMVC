@@ -2,6 +2,7 @@ package com.example.app.controllers;
 
 import com.example.app.models.Message;
 import com.example.app.services.IMessageService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,8 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/messages")
 public class MessageController {
+    private final Logger logger = Logger.getLogger(this.getClass());
+
     private IMessageService messageService;
 
     @Autowired
@@ -43,7 +46,7 @@ public class MessageController {
             messageService.addMessage(message);
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("Can't add message!");
+            logger.error("Error while adding message ID:" + message.getId());
         }
         return new ResponseEntity<Void>(HttpStatus.CONFLICT);
     }
@@ -54,7 +57,7 @@ public class MessageController {
             messageService.deleteMessage(messageId);
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("Can't delete message!");
+            logger.error("Error while deleting message ID:" + messageId);
         }
         return new ResponseEntity<Void>(HttpStatus.CONFLICT);
     }
@@ -65,7 +68,7 @@ public class MessageController {
             messageService.updateMessage(message);
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("Can't update message!");
+            logger.error("Error while updating message ID:" + message.getId());
         }
         return new ResponseEntity<Void>(HttpStatus.CONFLICT);
     }
@@ -76,7 +79,7 @@ public class MessageController {
         try {
             return messageService.previewMessage(messageId);
         } catch (Exception e) {
-            System.out.println("Can't preview message!");
+            logger.info("Message preview not found ID:" + messageId);
         }
         return "";
     }
