@@ -1,6 +1,6 @@
 package com.example.worker.services;
 
-import com.example.worker.models.EmailDto;
+import com.example.worker.models.Message;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Component
 public class ScheduledTasksService {
-    private static List<EmailDto> messageList = Collections.EMPTY_LIST;
+    private static List<Message> messageList = Collections.EMPTY_LIST;
     private final Logger log = Logger.getLogger(this.getClass());
     private IEmailService emailService;
 

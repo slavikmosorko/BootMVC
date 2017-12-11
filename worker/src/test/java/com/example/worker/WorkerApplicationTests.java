@@ -1,7 +1,7 @@
 package com.example.worker;
 
 import com.example.worker.daos.IEmailDao;
-import com.example.worker.models.EmailDto;
+import com.example.worker.models.Message;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class WorkerApplicationTests {
 
     @Test
     public void emailDaoTest() {
-        EmailDto emailDto = new EmailDto();
+        Message emailDto = new Message();
         emailDto.setId(1);
         emailDao.sendEmail(emailDto);
     }

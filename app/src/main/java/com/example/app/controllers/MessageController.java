@@ -30,7 +30,7 @@ public class MessageController {
     }
 
     @GetMapping("/list")
-    public String showView() {
+    public String getMessagesView() {
         return "views/messages/messagesList";
     }
 

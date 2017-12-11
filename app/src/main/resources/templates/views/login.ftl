@@ -30,6 +30,12 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <br>
+                            <a href="/register"> Sign Up, if you don't have an account yet.</a>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

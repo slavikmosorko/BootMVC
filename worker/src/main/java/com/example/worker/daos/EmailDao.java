@@ -1,6 +1,6 @@
 package com.example.worker.daos;
 
-import com.example.worker.models.EmailDto;
+import com.example.worker.models.Message;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -16,7 +16,7 @@ public class EmailDao implements IEmailDao {
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
-    public void sendEmail(EmailDto email) {
+    public void sendEmail(Message email) {
         String nativeQuery = "" +
                 "UPDATE messages m" +
                 " SET m.sent = 1" +
@@ -28,16 +28,16 @@ public class EmailDao implements IEmailDao {
     }
 
     @Override
-    public List<EmailDto> getAllUnprocessedEmails() {
+    public List<Message> getAllUnprocessedEmails() {
         String timeZonePrefix = "(date_sub(NOW(), INTERVAL -9 HOUR))";
         String nativeQuery = "" +
-                "SELECT id, content, subject, addressee FROM messages m " +
+                "SELECT * FROM messages m " +
                 "WHERE m.sent = 0 " +
                 "AND m.deleted = 0 " +
                 "AND (m.sending_date BETWEEN " +
                 "(" + timeZonePrefix +" + INTERVAL 1 MINUTE) AND NOW() OR m.sending_date < " + timeZonePrefix+ ")";
         Query query = entityManager
-                .createNativeQuery(nativeQuery, EmailDto.class);
+                .createNativeQuery(nativeQuery, Message.class);
         return query.getResultList();
     }
 }

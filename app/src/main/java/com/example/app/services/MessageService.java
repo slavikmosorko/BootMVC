@@ -5,8 +5,9 @@ import com.example.app.models.Message;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -31,7 +32,7 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
+    @Transactional(rollbackFor=Exception.class, propagation= Propagation.REQUIRED)
     public void updateMessage(Message message) {
         try {
             messageDAO.updateMessage(message);
@@ -42,7 +43,7 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
+    @Transactional(rollbackFor=Exception.class, propagation= Propagation.REQUIRED)
     public void addMessage(Message message) {
         try {
             messageDAO.addMessage(message);
@@ -53,7 +54,7 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
+    @Transactional(rollbackFor=Exception.class, propagation= Propagation.REQUIRED)
     public void deleteMessage(long messageId) {
         try {
             messageDAO.deleteMessage(messageId);

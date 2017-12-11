@@ -1,5 +1,6 @@
-package com.example.app.models;
+package com.example.worker.models;
 
+import org.hibernate.annotations.Proxy;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -8,12 +9,13 @@ import java.util.Date;
 import java.util.Map;
 
 @Entity
+@Proxy(lazy = false)
 @Table(name = "messages")
 public class Message {
     @Column(name = "`sent`")
-    boolean sent = false;
+    boolean sent;
     @Column(name = "`deleted`")
-    boolean deleted = false;
+    boolean deleted;
     @Id
     @GeneratedValue
     @Column(name = "`id`")
