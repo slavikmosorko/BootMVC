@@ -34,7 +34,9 @@ public class ScheduledTasksService {
             messageList.stream()
                     .forEach(
                             email -> {
-                                log.info("\n[EMAIL PREPARED TO SENDING]\n ID:" + email.getId() + "\n CONTENT: " + email.getContent());
+                                log.info("\n[EMAIL PREPARED TO SENDING]\n ID:" + email.getId()
+                                        + "\n SUBJECT: " + email.getSubject()
+                                        + "\n TO: " + email.getAddressee());
                                 emailService.sendEmail(email);
                             }
                     );

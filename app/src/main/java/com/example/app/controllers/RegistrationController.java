@@ -37,23 +37,19 @@ public class RegistrationController {
     @PostMapping(value = "/register/newuser")
     public ResponseEntity<Void> registerNewUser(@RequestParam String email, @RequestParam String password) {
         if (registrationService.validateUser(email)) {
-            logger.info("Try to register user: " + email);
             if(registrationService.registerUser(email, password)) {
                 return new ResponseEntity<Void>(HttpStatus.OK);
             }
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
-        logger.info("User already exist: " + email);
         return new ResponseEntity<Void>(HttpStatus.CONFLICT);
     }
 
     @GetMapping(value = "/register/activate/{ac}")
     public String registerNewUser(@PathVariable String ac) {
         if (registrationService.activateUser(ac)) {
-            logger.info("User activated: " + ac);
             return "views/registration/thankYouPage";
         }
-        logger.info("User already active: " + ac);
         return "redirect: /";
     }
 }

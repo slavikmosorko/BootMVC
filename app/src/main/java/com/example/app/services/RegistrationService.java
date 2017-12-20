@@ -18,7 +18,8 @@ import java.util.Map;
 @Service
 public class RegistrationService implements IRegistrationService {
     private final Logger logger = Logger.getLogger(this.getClass());
-    private final String REGISTRATION_LINK = "http://localhost:8080/register/activate/";
+    //private final String REGISTRATION_LINK = "http://localhost:8080/register/activate/";
+    private final String REGISTRATION_LINK = "http://mvc-boot-application.193b.starter-ca-central-1.openshiftapps.com/register/activate/";
     private final String REGISTRATION_EMAIL = "" +
             "<table data-module=\"activationEmail\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n" +
             "\t\t\t\t\t\t<tr>\n" +
@@ -72,7 +73,11 @@ public class RegistrationService implements IRegistrationService {
     @Override
     public boolean validateUser(String username) {
         try {
-            return registrationDAO.validateUser(username);
+            if (!registrationDAO.validateUser(username)) {
+                logger.info("User already exist: " + username);
+                return false;
+            }
+            return true;
         } catch (Exception e) {
             logger.error("Error while validate user: " + username);
             return false;
@@ -82,6 +87,7 @@ public class RegistrationService implements IRegistrationService {
     @Override
     @Transactional(rollbackFor=Exception.class, propagation= Propagation.REQUIRED)
     public boolean registerUser(String username, String password) {
+        logger.info("Try to register user: " + username);
         String activationCode = RandomStringUtils.randomAlphabetic(32);
         UserAccount userAccount = new UserAccount(username, passwordEncoder.encode(password), activationCode);
         try {
@@ -97,6 +103,7 @@ public class RegistrationService implements IRegistrationService {
             parameters.put("link", REGISTRATION_LINK + activationCode);
             message.setParameters(parameters);
             messageService.addMessage(message);
+            logger.info("Activation message for [" + username + "] successfully sent.");
             return true;
         } catch (Exception e) {
             logger.error("Error while register user: " + username);
@@ -109,7 +116,12 @@ public class RegistrationService implements IRegistrationService {
     @Transactional(rollbackFor=Exception.class, propagation= Propagation.REQUIRED)
     public boolean activateUser(String ac) {
         try {
-            return registrationDAO.activateUser(ac);
+            if(!registrationDAO.activateUser(ac)) {
+                logger.info("User already active: " + ac);
+                return false;
+            }
+            logger.info("User activated: " + ac);
+            return true;
         } catch (Exception e) {
             logger.error("Error while activate user with key: " + ac);
             return false;
