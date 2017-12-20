@@ -103,7 +103,7 @@ public class RegistrationService implements IRegistrationService {
             parameters.put("link", REGISTRATION_LINK + activationCode);
             message.setParameters(parameters);
             messageService.addMessage(message);
-            logger.info("Activation message for [" + username + "] successfully sent.");
+            logger.info("Activation message for [" + username + "] successfully scheduled.");
             return true;
         } catch (Exception e) {
             logger.error("Error while register user: " + username);
