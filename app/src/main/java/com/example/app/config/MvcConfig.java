@@ -3,7 +3,7 @@ package com.example.app.config;
 import com.example.app.daos.BootDaoAuthenticationProvider;
 import com.example.app.daos.IMatcherDAO;
 import com.example.app.daos.MatcherDAO;
-import com.example.app.daos.UserJdbcDao;
+import com.example.app.services.MvcUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -28,10 +28,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 
     @Bean(name = "userDetailsService")
     public UserDetailsService userDetailsService() {
-        UserJdbcDao jdbcImpl = new UserJdbcDao();
+        MvcUserDetailsService jdbcImpl = new MvcUserDetailsService();
         jdbcImpl.setDataSource(dataSource());
-        jdbcImpl.setEnableAuthorities(false);
-        jdbcImpl.setEnableGroups(true);
         return jdbcImpl;
     }
 

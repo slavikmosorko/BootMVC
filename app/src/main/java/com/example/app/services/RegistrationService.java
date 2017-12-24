@@ -1,5 +1,6 @@
 package com.example.app.services;
 
+import com.example.app.config.Constants;
 import com.example.app.daos.IRegistrationDAO;
 import com.example.app.models.Message;
 import com.example.app.models.UserAccount;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -88,21 +90,19 @@ public class RegistrationService implements IRegistrationService {
     @Transactional(rollbackFor=Exception.class, propagation= Propagation.REQUIRED)
     public boolean registerUser(String username, String password) {
         logger.info("Try to register user: " + username);
-        String activationCode = RandomStringUtils.randomAlphabetic(32);
-        UserAccount userAccount = new UserAccount(username, passwordEncoder.encode(password), activationCode);
         try {
+            String activationCode = RandomStringUtils.randomAlphabetic(32);
+            UserAccount userAccount = new UserAccount(username,
+                    passwordEncoder.encode(password),
+                    false,
+                    true,
+                    true,
+                    true,
+                    Collections.EMPTY_LIST,
+                    activationCode);
             registrationDAO.registerUser(userAccount);
             logger.info(username + " successfully registered.");
-            Message message = new Message();
-            message.setSendingDate(new Date());
-            message.setSubject("Account activation.");
-            message.setAddressee(username);
-            message.setContent(REGISTRATION_EMAIL);
-            Map<String, String> parameters = new HashMap();
-            parameters.put("username", username);
-            parameters.put("link", REGISTRATION_LINK + activationCode);
-            message.setParameters(parameters);
-            messageService.addMessage(message);
+            messageService.addMessage(createActivationEmail(userAccount));
             logger.info("Activation message for [" + username + "] successfully scheduled.");
             return true;
         } catch (Exception e) {
@@ -126,5 +126,19 @@ public class RegistrationService implements IRegistrationService {
             logger.error("Error while activate user with key: " + ac);
             return false;
         }
+    }
+
+    private Message createActivationEmail(UserAccount userAccount) {
+        Message message = new Message();
+        message.setSendingDate(new Date());
+        message.setSubject("Account activation.");
+        message.setAddressee(userAccount.getUsername());
+        message.setContent(REGISTRATION_EMAIL);
+        message.setUserId(Constants.ACTIVATION_EMAIL_ID);
+        Map<String, String> parameters = new HashMap();
+        parameters.put("username", userAccount.getUsername());
+        parameters.put("link", REGISTRATION_LINK + userAccount.getActivationCode());
+        message.setParameters(parameters);
+        return  message;
     }
 }

@@ -1,11 +1,16 @@
 package com.example.app.controllers;
 
 import com.example.app.models.Message;
+import com.example.app.models.UserAccount;
 import com.example.app.services.IMessageService;
+import com.example.app.services.IValidationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,10 +28,13 @@ public class MessageController {
     private final Logger logger = Logger.getLogger(this.getClass());
 
     private IMessageService messageService;
+    private IValidationService validationService;
 
     @Autowired
-    public MessageController(IMessageService messageService) {
+    public MessageController(IMessageService messageService,
+                             IValidationService validationService) {
         this.messageService = messageService;
+        this.validationService = validationService;
     }
 
     @GetMapping("/list")
@@ -37,11 +45,14 @@ public class MessageController {
     @GetMapping(value = "/list.json")
     @ResponseBody
     public List<Message> getMessagesList() {
-        return messageService.getAllMessages();
+        UserAccount userAccount = validationService.getUserAccount();
+        return messageService.getAllMessages(userAccount);
     }
 
     @PostMapping("/add")
     public ResponseEntity<Void> addMessage(@Valid Message message) {
+        UserAccount userAccount = validationService.getUserAccount();
+        message.setUserId(userAccount.getId());
         try {
             messageService.addMessage(message);
             return new ResponseEntity<Void>(HttpStatus.OK);
@@ -52,7 +63,7 @@ public class MessageController {
     }
 
     @GetMapping("/delete")
-    public ResponseEntity<Void> deleteMessage(@NotNull long messageId) {
+    public ResponseEntity<Void> deleteMessage(@NotNull String messageId) {
         try {
             messageService.deleteMessage(messageId);
             return new ResponseEntity<Void>(HttpStatus.OK);
@@ -75,7 +86,7 @@ public class MessageController {
 
     @GetMapping("/preview")
     @ResponseBody
-    public String previewMessage(@NotNull long messageId) {
+    public String previewMessage(@NotNull String messageId) {
         try {
             return messageService.previewMessage(messageId);
         } catch (Exception e) {

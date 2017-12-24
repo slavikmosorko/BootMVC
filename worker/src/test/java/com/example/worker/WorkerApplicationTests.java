@@ -21,7 +21,6 @@ public class WorkerApplicationTests {
     @Test
     public void emailDaoTest() {
         Message emailDto = new Message();
-        emailDto.setId(1);
         emailDao.sendEmail(emailDto);
     }
 }

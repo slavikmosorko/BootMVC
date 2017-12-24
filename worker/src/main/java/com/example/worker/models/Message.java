@@ -1,5 +1,6 @@
 package com.example.worker.models;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Proxy;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -13,14 +14,15 @@ import java.util.Map;
 @Table(name = "messages")
 public class Message {
     @Column(name = "`sent`")
-    boolean sent;
+    boolean sent = false;
     @Column(name = "`deleted`")
-    boolean deleted;
+    boolean deleted = false;
     @Id
-    @GeneratedValue
-    @Column(name = "`id`")
-    private long id;
-    @Column(name = "`content`", nullable = false, length = 65535, columnDefinition="TEXT")
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @Column(name = "`id`", updatable = false, nullable = false)
+    private String id;
+    @Column(name = "`content`", nullable = false, length = 65535, columnDefinition = "TEXT")
     private String content;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     @NotNull
@@ -30,12 +32,13 @@ public class Message {
     private String addressee;
     @Column(name = "`subject`")
     private String subject;
-
     @ElementCollection(targetClass = String.class)
     @CollectionTable(name = "`message_parameters`")
-    @MapKeyColumn(name="`key`")
-    @Column(name="`value`")
+    @MapKeyColumn(name = "`key`")
+    @Column(name = "`value`")
     private Map<String, String> parameters = null;
+    @Column(name = "`user_id`")
+    private String userId;
 
     public Map<String, String> getParameters() {
         return parameters;
@@ -43,6 +46,14 @@ public class Message {
 
     public void setParameters(Map<String, String> parameters) {
         this.parameters = parameters;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getSubject() {
@@ -77,11 +88,11 @@ public class Message {
         this.sent = sent;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

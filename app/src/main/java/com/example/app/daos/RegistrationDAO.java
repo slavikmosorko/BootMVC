@@ -28,12 +28,12 @@ public class RegistrationDAO implements IRegistrationDAO {
     public void registerUser(UserAccount userAccount) {
         entityManager.persist(userAccount);
         String nativeQuery = "" +
-                "INSERT INTO group_members (username, group_id) " +
-                "VALUES (:username, :group_id);";
+                "INSERT INTO group_members (user_id, group_id) " +
+                "VALUES (:user_id, :group_id);";
         Query query = entityManager
                 .createNativeQuery(nativeQuery)
-                .setParameter("username", userAccount.getUserName())
-                .setParameter("group_id", 1);
+                .setParameter("user_id", userAccount.getId())
+                .setParameter("group_id", 2);
         query.executeUpdate();
     }
 

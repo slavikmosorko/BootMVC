@@ -36,6 +36,7 @@ public class ScheduledTasksService {
                             email -> {
                                 log.info("\n[EMAIL PREPARED TO SENDING]\n ID:" + email.getId()
                                         + "\n SUBJECT: " + email.getSubject()
+                                        + "\n FROM: " + email.getUserId()
                                         + "\n TO: " + email.getAddressee());
                                 emailService.sendEmail(email);
                             }

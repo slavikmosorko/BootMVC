@@ -1,6 +1,7 @@
 package com.example.app.daos;
 
 import com.example.app.models.Message;
+import com.example.app.models.UserAccount;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -15,17 +16,20 @@ public class MessageDAO implements IMessageDAO {
     private EntityManager entityManager;
 
     @Override
-    public List<Message> getAllMessages() {
+    public List<Message> getAllMessages(UserAccount userAccount) {
         String hql = "" +
                 "FROM Message as msg" +
-                " WHERE msg.deleted = 0" +
+                " WHERE msg.userId = :userId" +
+                " AND msg.deleted = 0" +
                 " ORDER BY msg.id";
         return (List<Message>) entityManager
-                .createQuery(hql).getResultList();
+                .createQuery(hql)
+                .setParameter("userId", userAccount.getId())
+                .getResultList();
     }
 
     @Override
-    public Message getMessageById(long messageId) {
+    public Message getMessageById(String messageId) {
         return entityManager.find(Message.class, messageId);
     }
 
@@ -40,7 +44,7 @@ public class MessageDAO implements IMessageDAO {
     }
 
     @Override
-    public void deleteMessage(long messageId) {
+    public void deleteMessage(String messageId) {
         String nativeQuery = "" +
                 "UPDATE messages m" +
                 " SET m.deleted = 1" +
@@ -52,7 +56,7 @@ public class MessageDAO implements IMessageDAO {
     }
 
     @Override
-    public String previewMessage(long messageId) {
+    public String previewMessage(String messageId) {
         String nativeQuery = "" +
                 "SELECT content FROM messages m" +
                 " WHERE m.id = :messageId";
