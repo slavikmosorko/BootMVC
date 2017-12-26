@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `matchers` (
   `access_role` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DELETE FROM `matchers`;
 INSERT INTO `matchers` (`id`, `access_role`, `url`) VALUES

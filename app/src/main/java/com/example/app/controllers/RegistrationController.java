@@ -17,8 +17,6 @@ import java.util.Objects;
 
 @Controller
 public class RegistrationController {
-    private final Logger logger = Logger.getLogger(this.getClass());
-
     IRegistrationService registrationService;
 
     @Autowired

@@ -15,6 +15,8 @@ public class Message {
     boolean sent = false;
     @Column(name = "`deleted`")
     boolean deleted = false;
+    @Column(name = "`valid`")
+    boolean valid = true;
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -37,6 +39,14 @@ public class Message {
     private Map<String, String> parameters = null;
     @Column(name = "`user_id`")
     private String userId;
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
 
     public Map<String, String> getParameters() {
         return parameters;

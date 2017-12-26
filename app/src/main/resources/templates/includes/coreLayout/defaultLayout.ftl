@@ -21,5 +21,6 @@
 </table>
     <#include "footer.ftl"/>
 </body>
+    <#include "globalAngularJS.ftl"/>
 </html>
 </#macro>

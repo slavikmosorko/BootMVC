@@ -7,6 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +19,7 @@ public class MvcUserDetailsService extends JdbcDaoSupport implements UserDetails
     ILogInService logInService;
 
     @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List<UserAccount> users = logInService.loadUsersByUsername(username);
 

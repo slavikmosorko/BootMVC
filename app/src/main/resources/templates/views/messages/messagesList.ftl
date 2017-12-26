@@ -13,9 +13,7 @@
         });
     });
 </script>
-<html ng-app="messagesView" class="ng-scope">
-<body>
-<div class="container" ng-cloak>
+<div class="container" ng-app="messagesViewModule" class="ng-scope" ng-cloak>
     <div class="row">
         <h1 class="display-3">Messages List</h1>
         <br>
@@ -35,11 +33,12 @@
                 <thead class="thead-dark">
                 <tr>
                     <th data-field="id">ID</th>
-                    <th data-field="content">Subject</th>
+                    <th data-field="subject">Subject</th>
                     <th data-field="content">Content</th>
-                    <th data-field="content">Addressee</th>
+                    <th data-field="addressee">Addressee</th>
                     <th data-field="sendingDate">Sending Date</th>
                     <th data-field="Sent">Sent</th>
+                    <th data-field="Valid">Valid</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -80,7 +79,11 @@
                                    ng-model="message.sendingDate"/>
                         </div>
                     </td>
-                    <td class="text-center" ng-class="message.sent ? 'success' : 'danger'">{{message.sent | sentFilter}}
+                    <td class="text-center" ng-class="message.sent ? 'success' : 'danger'">{{message.sent |
+                        booleanFilter}}
+                    </td>
+                    <td class="text-center" ng-class="message.valid ? 'success' : 'danger'">{{message.valid |
+                        booleanFilter}}
                     </td>
                     <td>
                         <button type="button" class="btn btn-primary btn-sm" ng-hide="msgCtrl.editingData[message.id]"
@@ -198,6 +201,5 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>
 </@mainLayout.defaultLayout>

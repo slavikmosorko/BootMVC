@@ -1,6 +1,6 @@
 package com.example.app.services;
 
-import com.example.app.config.Constants;
+import com.example.utils.Constants;
 import com.example.app.daos.IRegistrationDAO;
 import com.example.app.models.Message;
 import com.example.app.models.UserAccount;
@@ -73,6 +73,7 @@ public class RegistrationService implements IRegistrationService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, readOnly = true)
     public boolean validateUser(String username) {
         try {
             if (!registrationDAO.validateUser(username)) {

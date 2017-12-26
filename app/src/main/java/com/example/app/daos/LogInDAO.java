@@ -2,11 +2,11 @@ package com.example.app.daos;
 
 import com.example.app.models.GrantedAuthorityDTO;
 import com.example.app.models.UserAccountDTO;
+import com.example.utils.hibernate.HibernateUtil;
 import org.hibernate.Query;
-import org.hibernate.SessionFactory;
+import org.hibernate.Session;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,9 +18,6 @@ public class LogInDAO implements ILogInDAO {
             + "from groups g, group_members gm, group_authorities ga "
             + "where gm.user_id = :userId " + "and g.id = ga.group_id "
             + "and g.id = gm.group_id";
-
-    @Autowired
-    private SessionFactory sessionFactory;
 
     @Override
     public List<UserAccountDTO> loadUsersByUsername(String username) {
@@ -34,7 +31,8 @@ public class LogInDAO implements ILogInDAO {
                 "u.enabled as enabled " +
                 "FROM users as u " +
                 "WHERE u.username = :username";
-        Query query = sessionFactory.openSession()
+        Session session = HibernateUtil.getSession();
+        Query query = session
                 .createSQLQuery(nativeQuery)
                 .addScalar("id", StandardBasicTypes.STRING)
                 .addScalar("intId", StandardBasicTypes.LONG)
@@ -44,19 +42,22 @@ public class LogInDAO implements ILogInDAO {
                 .addScalar("enabled", StandardBasicTypes.BOOLEAN)
                 .setParameter("username", username)
                 .setResultTransformer(Transformers.aliasToBean(UserAccountDTO.class));
-        return query.list();
+        List list = query.list();
+        return list;
     }
 
     @Override
     public List<GrantedAuthorityDTO> loadUserAuthoritiesByUserId(String userId) {
         String nativeQuery = DEF_GROUP_AUTHORITIES_BY_USER_ID_QUERY;
-        Query query = sessionFactory.openSession()
+        Session session = HibernateUtil.getSession();
+        Query query = session
                 .createSQLQuery(nativeQuery)
                 .addScalar("id", StandardBasicTypes.LONG)
                 .addScalar("groupName", StandardBasicTypes.STRING)
                 .addScalar("authority", StandardBasicTypes.STRING)
                 .setParameter("userId", userId)
                 .setResultTransformer(Transformers.aliasToBean(GrantedAuthorityDTO.class));
-        return query.list();
+        List list = query.list();
+        return list;
     }
 }

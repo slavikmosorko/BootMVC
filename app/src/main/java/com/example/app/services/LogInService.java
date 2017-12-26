@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,6 +22,7 @@ public class LogInService implements ILogInService {
     private ILogInDAO logInDAO;
 
     @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, readOnly = true)
     public List<UserAccount> loadUsersByUsername(String username) {
         try {
             return logInDAO.loadUsersByUsername(username)
@@ -44,6 +47,7 @@ public class LogInService implements ILogInService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, readOnly = true)
     public List<GrantedAuthority> loadUserAuthoritiesByUserId(String userId) {
         try {
             return logInDAO.loadUserAuthoritiesByUserId(userId).stream()

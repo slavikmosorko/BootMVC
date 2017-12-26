@@ -23,19 +23,22 @@ public class MessageService implements IMessageService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, readOnly = true)
     public List<Message> getAllMessages(UserAccount userAccount) {
         return messageDAO.getAllMessages(userAccount);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, readOnly = true)
     public Message getMessageById(String messageId) {
         return messageDAO.getMessageById(messageId);
     }
 
     @Override
-    @Transactional(rollbackFor=Exception.class, propagation= Propagation.REQUIRED)
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public void updateMessage(Message message) {
         try {
+            message.setValid(true);
             messageDAO.updateMessage(message);
             logger.info("Message ID: " + message.getId() + " updated successfully");
         } catch (Exception e) {
@@ -44,7 +47,7 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    @Transactional(rollbackFor=Exception.class, propagation= Propagation.REQUIRED)
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public void addMessage(Message message) {
         try {
             messageDAO.addMessage(message);
@@ -55,7 +58,7 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    @Transactional(rollbackFor=Exception.class, propagation= Propagation.REQUIRED)
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public void deleteMessage(String messageId) {
         try {
             messageDAO.deleteMessage(messageId);
@@ -66,6 +69,7 @@ public class MessageService implements IMessageService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, readOnly = true)
     public String previewMessage(String messageId) {
         return messageDAO.previewMessage(messageId);
     }

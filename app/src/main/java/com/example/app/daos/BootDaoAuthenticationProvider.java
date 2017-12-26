@@ -15,22 +15,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.Assert;
 
-/**
- * An {@link AuthenticationProvider} implementation that retrieves user details from a
- * {@link UserDetailsService}.
- *
- * @author Ben Alex
- * @author Rob Winch
- */
 public class BootDaoAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
     // ~ Static fields/initializers
     // =====================================================================================
 
-    /**
-     * The plaintext password used to perform
-     * {@link PasswordEncoder#isPasswordValid(String, String, Object)} on when the user is
-     * not found to avoid SEC-2056.
-     */
     private static final String USER_NOT_FOUND_PASSWORD = "userNotFoundPassword";
 
     // ~ Instance fields
@@ -39,13 +27,6 @@ public class BootDaoAuthenticationProvider extends AbstractUserDetailsAuthentica
 
     private PasswordEncoder passwordEncoder;
 
-    /**
-     * The password used to perform
-     * {@link PasswordEncoder#isPasswordValid(String, String, Object)} on when the user is
-     * not found to avoid SEC-2056. This is necessary, because some
-     * {@link PasswordEncoder} implementations will short circuit if the password is not
-     * in a valid format.
-     */
     private String userNotFoundEncodedPassword;
 
     private SaltSource saltSource;
@@ -125,19 +106,6 @@ public class BootDaoAuthenticationProvider extends AbstractUserDetailsAuthentica
         return loadedUser;
     }
 
-    /**
-     * Sets the PasswordEncoder instance to be used to encode and validate passwords. If
-     * not set, the password will be compared as plain text.
-     * <p>
-     * For systems which are already using salted password which are encoded with a
-     * previous release, the encoder should be of type
-     * {@code org.springframework.security.authentication.encoding.PasswordEncoder}.
-     * Otherwise, the recommended approach is to use
-     * {@code org.springframework.security.crypto.password.PasswordEncoder}.
-     *
-     * @param passwordEncoder must be an instance of one of the {@code PasswordEncoder}
-     * types.
-     */
     public void setPasswordEncoder(Object passwordEncoder) {
         Assert.notNull(passwordEncoder, "passwordEncoder cannot be null");
 
@@ -184,18 +152,6 @@ public class BootDaoAuthenticationProvider extends AbstractUserDetailsAuthentica
         return passwordEncoder;
     }
 
-    /**
-     * The source of salts to use when decoding passwords. <code>null</code> is a valid
-     * value, meaning the <code>DaoAuthenticationProvider</code> will present
-     * <code>null</code> to the relevant <code>PasswordEncoder</code>.
-     * <p>
-     * Instead, it is recommended that you use an encoder which uses a random salt and
-     * combines it with the password field. This is the default approach taken in the
-     * {@code org.springframework.security.crypto.password} package.
-     *
-     * @param saltSource to use when attempting to decode passwords via the
-     * <code>PasswordEncoder</code>
-     */
     public void setSaltSource(SaltSource saltSource) {
         this.saltSource = saltSource;
     }

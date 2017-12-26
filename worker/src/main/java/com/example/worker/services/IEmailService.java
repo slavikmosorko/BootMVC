@@ -6,5 +6,8 @@ import java.util.List;
 
 public interface IEmailService {
     void sendEmail(Message email);
+
+    void setEmailAsInvalid(String emailId);
+
     List<Message> getAllUnprocessedEmails();
 }

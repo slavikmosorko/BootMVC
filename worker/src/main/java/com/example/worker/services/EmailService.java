@@ -9,9 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.internet.MimeMessage;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -26,7 +27,17 @@ public class EmailService implements IEmailService {
     IEmailDao emailDao;
 
     @Override
-    @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
+    public void setEmailAsInvalid(String emailId) {
+        try {
+            emailDao.setEmailAsInvalid(emailId);
+            log.info("Email ID: " + emailId + " marked as invalid");
+        } catch (Exception e) {
+            log.error("Failed to set invalid at email ID: " + emailId);
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public void sendEmail(Message email) {
         Runnable emailSenderThread = () -> {
             MimeMessage message = emailSender.createMimeMessage();
@@ -47,13 +58,16 @@ public class EmailService implements IEmailService {
                 log.info("[EMAIL SENT] ID: " + email.getId());
             } catch (Exception e) {
                 log.error("[ERROR SENDING EMAIL] " + email.getId());
+                setEmailAsInvalid(email.getId());
                 e.printStackTrace();
             }
+            ProcessingFacade.deleteEmailFromQueue(email.getId());
         };
         new Thread(emailSenderThread).start();
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, readOnly = true)
     public List<Message> getAllUnprocessedEmails() {
         return emailDao.getAllUnprocessedEmails();
     }

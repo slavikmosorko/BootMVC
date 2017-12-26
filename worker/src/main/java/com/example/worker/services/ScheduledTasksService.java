@@ -1,17 +1,15 @@
 package com.example.worker.services;
 
-import com.example.worker.models.Message;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ScheduledTasksService {
-    private static List<Message> messageList = Collections.EMPTY_LIST;
+
     private final Logger log = Logger.getLogger(this.getClass());
     private IEmailService emailService;
 
@@ -22,16 +20,21 @@ public class ScheduledTasksService {
 
     @Scheduled(fixedRate = 30000)
     public void sendMassaging() {
-        if (messageList.isEmpty()) {
-            messageList = emailService.getAllUnprocessedEmails();
+        if (ProcessingFacade.messageList.isEmpty()) {
+            ProcessingFacade.messageList =
+                    emailService.getAllUnprocessedEmails()
+                            .stream()
+                            .filter(email -> !ProcessingFacade.processedEmails.contains(email.getId()))
+                            .collect(Collectors.toList());
         }
-        log.info("Messages amount: " + messageList.size());
+        log.info("Emails added for processing: " + ProcessingFacade.messageList.size());
         sendMessages();
     }
 
     private void sendMessages() {
-        if (!messageList.isEmpty()) {
-            messageList.stream()
+        if (!ProcessingFacade.messageList.isEmpty()) {
+            ProcessingFacade.messageList.stream()
+                    .filter(email -> !ProcessingFacade.processedEmails.contains(email.getId()))
                     .forEach(
                             email -> {
                                 log.info("\n[EMAIL PREPARED TO SENDING]\n ID:" + email.getId()
@@ -39,9 +42,11 @@ public class ScheduledTasksService {
                                         + "\n FROM: " + email.getUserId()
                                         + "\n TO: " + email.getAddressee());
                                 emailService.sendEmail(email);
+                                ProcessingFacade.processedEmails.add(email.getId());
                             }
                     );
-            messageList.clear();
+            ProcessingFacade.messageList.clear();
         }
+        log.info("Unprocessed emails count: " + ProcessingFacade.processedEmails.size());
     }
 }

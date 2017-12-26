@@ -1,7 +1,7 @@
 var app = angular
-    .module('messagesView', ['angularUtils.directives.dirPagination']);
+    .module('messagesViewModule', ['angularUtils.directives.dirPagination']);
 
-app.controller('messagesViewController', function ($rootScope, $log, $interval, $sce, messagesViewService) {
+app.controller('messagesViewController', function ($rootScope, $log, $sce, messagesViewService) {
     var msgCtrl = this;
     msgCtrl.loaded = false;
     msgCtrl.messages = [];
