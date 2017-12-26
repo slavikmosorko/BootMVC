@@ -1,4 +1,4 @@
-package com.example.app.config;
+package com.example.worker.config;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

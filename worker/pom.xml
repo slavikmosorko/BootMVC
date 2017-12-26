@@ -22,7 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <start-class>com.example.worker.WorkerApplication</start-class>
+        <start-class>com.example.WorkerApplication</start-class>
     </properties>
 
     <dependencies>

@@ -38,7 +38,6 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         driverManagerDataSource.setPassword(jdbcPassword);
         logger.info("Connected to DB: " + jdbcUrl);
         return driverManagerDataSource;
-
     }
 
     @Bean(name = "userDetailsService")
