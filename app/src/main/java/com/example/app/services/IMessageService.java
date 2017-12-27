@@ -4,7 +4,6 @@ package com.example.app.services;
 import com.example.app.models.Message;
 import com.example.app.models.UserAccount;
 
-import java.util.HashMap;
 import java.util.List;
 
 public interface IMessageService {

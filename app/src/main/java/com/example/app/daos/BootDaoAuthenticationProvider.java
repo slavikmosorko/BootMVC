@@ -1,7 +1,6 @@
 package com.example.app.daos;
 
 import org.apache.log4j.Logger;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -83,8 +82,7 @@ public class BootDaoAuthenticationProvider extends AbstractUserDetailsAuthentica
 
         try {
             loadedUser = this.getUserDetailsService().loadUserByUsername(username);
-        }
-        catch (UsernameNotFoundException notFound) {
+        } catch (UsernameNotFoundException notFound) {
             this.logger.warn("Username [" + username + "] not found");
             if (authentication.getCredentials() != null) {
                 String presentedPassword = authentication.getCredentials().toString();
@@ -92,8 +90,7 @@ public class BootDaoAuthenticationProvider extends AbstractUserDetailsAuthentica
                         presentedPassword, null);
             }
             throw notFound;
-        }
-        catch (Exception repositoryProblem) {
+        } catch (Exception repositoryProblem) {
             throw new InternalAuthenticationServiceException(
                     repositoryProblem.getMessage(), repositoryProblem);
         }

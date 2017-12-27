@@ -5,7 +5,7 @@
             <a class="navbar-brand" href="/">BootMVC</a>
         </div>
         <ul class="nav navbar-nav">
-            <#--<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Pages<span class="caret"></span></a>-->
+        <#--<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Pages<span class="caret"></span></a>-->
                 <#--<ul class="dropdown-menu">-->
                     <#--<li><a href="/messages/list">Messages</a></li>-->
                 <#--</ul>-->

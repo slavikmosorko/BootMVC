@@ -4,7 +4,7 @@
 <head>
     <title>${title}</title>
     <style>
-            <#include "defaultLeyout.css"/>
+            <#include "css/defaultLeyout.css"/>
     </style>
 </head>
 <body class="defaultbody">

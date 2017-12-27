@@ -1,8 +1,8 @@
 package com.example.app.controllers;
 
-import com.example.utils.Constants;
 import com.example.app.models.Message;
 import com.example.app.services.IMessageService;
+import com.example.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

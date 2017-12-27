@@ -26,7 +26,7 @@ globalAppModule.controller('globalWebPushesController', function ($interval, glo
         globalWebPushesService.getWebPushes()
             .then(
                 function (response) {
-                    angular.forEach(response.data, function(item){
+                    angular.forEach(response.data, function (item) {
                         toastr.info(item.message + "\nFrom: " + item.userIdFrom, item.title);
                     });
                 },

@@ -1,7 +1,6 @@
 package com.example.app.controllers;
 
 import com.example.app.services.IRegistrationService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.Objects;
 
@@ -35,7 +33,7 @@ public class RegistrationController {
     @PostMapping(value = "/register/newuser")
     public ResponseEntity<Void> registerNewUser(@RequestParam String email, @RequestParam String password) {
         if (registrationService.validateUser(email)) {
-            if(registrationService.registerUser(email, password)) {
+            if (registrationService.registerUser(email, password)) {
                 return new ResponseEntity<Void>(HttpStatus.OK);
             }
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);

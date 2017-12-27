@@ -1,9 +1,9 @@
 package com.example.app.services;
 
-import com.example.utils.Constants;
 import com.example.app.daos.IRegistrationDAO;
 import com.example.app.models.Message;
 import com.example.app.models.UserAccount;
+import com.example.utils.Constants;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +88,7 @@ public class RegistrationService implements IRegistrationService {
     }
 
     @Override
-    @Transactional(rollbackFor=Exception.class, propagation= Propagation.REQUIRED)
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public boolean registerUser(String username, String password) {
         logger.info("Try to register user: " + username);
         try {
@@ -114,10 +114,10 @@ public class RegistrationService implements IRegistrationService {
     }
 
     @Override
-    @Transactional(rollbackFor=Exception.class, propagation= Propagation.REQUIRED)
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public boolean activateUser(String ac) {
         try {
-            if(!registrationDAO.activateUser(ac)) {
+            if (!registrationDAO.activateUser(ac)) {
                 logger.info("User already active: " + ac);
                 return false;
             }
@@ -140,6 +140,6 @@ public class RegistrationService implements IRegistrationService {
         parameters.put("username", userAccount.getUsername());
         parameters.put("link", REGISTRATION_LINK + userAccount.getActivationCode());
         message.setParameters(parameters);
-        return  message;
+        return message;
     }
 }

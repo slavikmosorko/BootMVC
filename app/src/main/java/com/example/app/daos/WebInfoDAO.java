@@ -43,7 +43,7 @@ public class WebInfoDAO implements IWebInfoDAO {
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public void receiveMessagesForUser(List<WebInfoResponse> messages) {
-        if(messages.size() > 0) {
+        if (messages.size() > 0) {
             String ids = "";
             for (WebInfoResponse message : messages) {
                 ids += "'" + message.getId() + "',";

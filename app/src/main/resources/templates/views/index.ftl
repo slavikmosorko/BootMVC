@@ -4,26 +4,26 @@
     $('#homeli').addClass('active');
 </script>
 <html>
-    <style>
-        .margin {
-            margin-bottom: 43px;
-        }
+<style>
+    .margin {
+        margin-bottom: 43px;
+    }
 
-        .container-fluid2 {
-            padding-top: 30px;
-            padding-bottom: 30px;
-        }
+    .container-fluid2 {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
 
-        .bg-1 {
-            background-color: #1abc9c; /* Green */
-            color: #ffffff;
-        }
+    .bg-1 {
+        background-color: #1abc9c; /* Green */
+        color: #ffffff;
+    }
 
-        .bg-2 {
-            background-color: #474e5d; /* Dark Blue */
-            color: #ffffff;
-        }
-    </style>
+    .bg-2 {
+        background-color: #474e5d; /* Dark Blue */
+        color: #ffffff;
+    }
+</style>
 </head>
 <body>
 <!-- First Container -->

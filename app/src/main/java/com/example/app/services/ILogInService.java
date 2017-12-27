@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface ILogInService {
     List<UserAccount> loadUsersByUsername(String username);
+
     List<GrantedAuthority> loadUserAuthoritiesByUserId(String userId);
 }
